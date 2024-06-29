@@ -1,0 +1,16 @@
+# Development
+/src
+/tests
+/bench
+/examples
+
+/tsconfig.json
+/build.ts
+/eslint.config.js
+
+# Locks
+/bun.lockb
+
+# Git
+/.git
+/.gitignore
