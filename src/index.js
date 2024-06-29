@@ -10,4 +10,3 @@ export function h(name, attributes, ...children) {
 
 export const createElement = h;
 export const Fragment = (attributes) => parseChildren(attributes.children);
-export { escapeHTML } from '@bit-js/web-utils';

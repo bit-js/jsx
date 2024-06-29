@@ -27,10 +27,10 @@ Then you can write JSX in your file:
 const html: string = <p>Hi</p>;
 ```
 
-And to escape some strings:
+And to escape some strings install `@bit-js/web-utils` and do:
 
 ```tsx
-import { escapeHTML } from "@bit-js/jsx";
+import { escapeHTML } from "@bit-js/web-utils";
 
 const html: string = <div>{escapeHTML(htmlString)}</div>;
 ```
