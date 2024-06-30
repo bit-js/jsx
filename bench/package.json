@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "bench": "bun bench-gen.js && bun index.js"
+  }
+}

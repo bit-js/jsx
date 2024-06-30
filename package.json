@@ -18,6 +18,7 @@
     "eslint": "latest",
     "eslint-plugin-jsdoc": "latest",
     "mitata": "latest",
+    "tsx": "^4.16.0",
     "typescript": "latest",
     "typescript-eslint": "latest"
   }

@@ -1,11 +1,11 @@
-import { parseAttributes, parseChildren } from './utils';
+import { parseAttributes, parseChildren, voidTagMap } from './utils';
 
 export function h(name, attributes, ...children) {
-  return typeof name === 'function'
-    ? name(attributes === null ? { children } : { ...attributes, children })
-    : name in voidTagMap
+  return typeof name === 'string' ?
+    (name in voidTagMap
       ? `<${name}${parseAttributes(attributes)}>`
-      : `<${name}${parseAttributes(attributes)}>${parseChildren(children)}</${name}>`;
+      : `<${name}${parseAttributes(attributes)}>${parseChildren(children)}</${name}>`
+    ) : name(attributes === null ? { children } : { ...attributes, children });
 }
 
 export const createElement = h;

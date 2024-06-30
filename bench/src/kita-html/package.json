@@ -1,0 +1,11 @@
+{
+  "name": "@kitajs/html",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@kitajs/html": "^4.1.0"
+  }
+}

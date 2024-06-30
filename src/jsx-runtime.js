@@ -1,30 +1,11 @@
-import { parseAttributes, parseChildren } from './utils';
-
-const voidTagMap = {
-  meta: null,
-  link: null,
-  img: null,
-  br: null,
-  input: null,
-  hr: null,
-  area: null,
-  base: null,
-  col: null,
-  command: null,
-  embed: null,
-  keygen: null,
-  param: null,
-  source: null,
-  track: null,
-  wbr: null
-};
+import { parseAttributes, parseChildren, voidTagMap } from './utils';
 
 export function jsx(name, attributes) {
-  return typeof name === 'function'
-    ? name(attributes)
-    : name in voidTagMap
+  return typeof name === 'string'
+    ? (name in voidTagMap
       ? `<${name}${parseAttributes(attributes)}>`
-      : `<${name}${parseAttributes(attributes)}>${parseChildren(attributes.children)}</${name}>`;
+      : `<${name}${parseAttributes(attributes)}>${parseChildren(attributes.children)}</${name}>`
+    ) : name(attributes);
 }
 
 export const jsxs = jsx;
