@@ -1,15 +1,12 @@
 {
   "compilerOptions": {
     // Enable latest features
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
     "jsx": "react-jsx",
-    "jsxImportSource": "@bit-js/jsx",
+    "jsxImportSource": "../../..",
     "allowJs": true,
     // Bundler mode
     "moduleResolution": "bundler",
