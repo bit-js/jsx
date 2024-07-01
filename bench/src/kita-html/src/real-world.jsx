@@ -1,12 +1,15 @@
-import { escapeHTML } from '@bit-js/web-utils';
-import purchases from '../../utils/purchases';
+const purchases = Array.from({ length: 50 }, (_, i) => ({
+  name: `Item ${i + 1}`,
+  price: i * 2,
+  quantity: i * 5
+}));
 
 function Purchase(props) {
   return (
     <div class="purchase purchase-card">
-      <div class="purchase-name">{escapeHTML(props.name)}</div>
-      <div class="purchase-price">{props.price}</div>
-      <div class="purchase-quantity">{props.quantity}</div>
+      <div class="purchase-name" safe>{props.name}</div>
+      <div class="purchase-price" safe>{props.price}</div>
+      <div class="purchase-quantity" safe>{props.quantity}</div>
     </div>
   );
 }
@@ -23,7 +26,7 @@ function Layout(props) {
 function Head(props) {
   return (
     <div>
-      <title>{escapeHTML(props.title)}</title>
+      <title safe>{props.title}</title>
       <meta name="description" content="A description" />
       <meta name="keywords" content="some, keywords" />
       <meta name="author" content="Some Author" />
@@ -47,8 +50,8 @@ function Head(props) {
 function Header(props) {
   return (
     <header class="header">
-      <h1 class="header-title">
-        Hello {escapeHTML(props.name)}
+      <h1 class="header-title" safe>
+        Hello {props.name}
       </h1>
       <nav class="header-nav">
         <ul class="header-ul">
@@ -67,8 +70,8 @@ function Header(props) {
 function Footer(props) {
   return (
     <footer class="footer">
-      <p class="footer-year">
-        © {new Date().getFullYear()} {escapeHTML(props.name)}
+      <p class="footer-year" safe>
+        © {new Date().getFullYear()} {props.name}
       </p>
 
       <p class="footer">
@@ -93,8 +96,8 @@ function UserProfile(props) {
   return (
     <section class="user-profile">
       <h2 class="user-profile title">User Profile</h2>
-      <p class="user-profile name">
-        Name: {escapeHTML(props.name)}
+      <p class="user-profile name" safe>
+        Name: {props.name}
       </p>
       <p class="user-profile info">Email: example@example.com</p>
       <p class="user-profile info">Address: 123 Main St, City, Country</p>
@@ -109,8 +112,8 @@ function Sidebar() {
       <h2 class="purchase title">Recent Purchases</h2>
       <ul class="purchase list">
         {purchases.slice(0, 3).map((purchase) => (
-          <li class="purchase-preview">
-            {escapeHTML(purchase.name)} - ${purchase.price.toFixed(2)}
+          <li class="purchase-preview" safe>
+            {purchase.name} - ${purchase.price.toFixed(2)}
           </li>
         ))}
       </ul>
@@ -156,3 +159,5 @@ export default function Page(name) {
     </Layout>
   );
 }
+
+console.log(Page('Hi'));

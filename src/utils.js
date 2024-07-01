@@ -1,118 +1,54 @@
-// @ts-check
-export function kebabReplacer(char) {
-  return `${char[0]}-${char[1].toLowerCase()}`;
+function escapeSingleQuote(value) {
+  return value.indexOf("'") === -1 ? value : value.replace(/'/g, '"');
 }
 
-export function parseStyles(styles) {
-  if (typeof styles === 'string') return ` style='${styles.replace(/'/g, '"')}'`;
-
-  let result = " style='";
-
-  for (let i = 0, keys = Object.keys(styles), { length } = keys; i < length; ++i) {
-    const key = keys[i];
-    const value = styles[key];
-
-    if (value !== null && value !== undefined) {
-      result += key.replace(/[a-z][A-Z]/g, kebabReplacer) + ':';
-
-      if (typeof value === 'string') {
-        let idx = value.indexOf("'");
-        if (idx === -1) result += value;
-
-        else {
-          let st = 0;
-
-          do {
-            result += value.substring(st, idx);
-            result += '"';
-
-            st = idx + 1;
-            idx = value.indexOf("'", st);
-          } while (idx !== -1);
-        }
-      } else result += value;
-
-      result += ';';
-    }
-  }
-
-  return result + "'";
+export function parseArrayChildren(children) {
+  return (children.includes(null) || children.includes(undefined) ? children.map((val) => val ?? '') : children).join('');
 }
 
+/**
+ * @param {Record<string, any>} attributes
+ */
 export function parseAttributes(attributes) {
   let result = '';
 
-  for (let i = 0, keys = Object.keys(attributes), { length } = keys; i < length; ++i) {
-    const key = keys[i];
+  for (const key in attributes) {
     const value = attributes[key];
 
-    if (key !== 'children') {
-      if (key === 'class') {
-        if (typeof value === 'string') result += ` class='${value.replace(/'/g, '"')}'`;
-        else if (value.length !== 0) result += ` class='${value.join(' ').replace(/'/g, '"')}'`;
-      }
+    // Most common key
+    if (key === 'class') {
+      result += ` class='${escapeSingleQuote(value)}'`;
+    } else if (key === 'style') {
+      if (typeof value === 'string')
+        result += ` style='${escapeSingleQuote(value)}'`;
+      else {
+        let str = '';
 
-      else if (key === 'style') {
-        if (typeof value === 'string')
-          result += ` style='${value.replace(/'/g, '"')}'`;
-        else {
-          result += " style='";
+        for (const k in value) {
+          const v = value[key];
 
-          for (let i = 0, keys = Object.keys(value), { length } = keys; i < length; ++i) {
-            const k = keys[i];
-            const v = value[key];
-
-            if (v !== null && v !== undefined) {
-              result += k.replace(/[a-z][A-Z]/g, kebabReplacer);
-              result += ':';
-
-              if (typeof v === 'string') {
-                let idx = v.indexOf("'");
-                if (idx === -1) result += v;
-
-                else {
-                  let st = 0;
-
-                  do {
-                    result += v.substring(st, idx);
-                    result += '"';
-
-                    st = idx + 1;
-                    idx = v.indexOf("'", st);
-                  } while (idx !== -1);
-                }
-              } else result += v;
-
-              result += ';';
-            }
-          }
-
-          result += "'";
+          if (v !== null && v !== undefined)
+            str += `${k.replace(/[a-z][A-Z]/g, (chars) => `${chars[0]}-${chars[1].toLowerCase()}`)}:${v};`
         }
-      }
 
+        result += ` style='${escapeSingleQuote(str)}'`;
+      }
+    } else if (key !== 'children') {
+      if (typeof value === 'string')
+        result += ` ${key}='${escapeSingleQuote(value)}'`;
       else if (typeof value === 'boolean') {
         if (value) {
           result += ' ';
           result += key;
         }
-      }
-
+      } else if (typeof value === 'object')
+        result += ` ${key}='${value instanceof Date ? value.toISOString() : escapeSingleQuote(value.toString())}'`;
       else
-        result += ` ${key}='${typeof value === 'string'
-          ? value.replace(/'/g, '"')
-          : typeof value === 'object'
-            ? value instanceof Date
-              ? value.toISOString()
-              : (value + '').replace(/'/g, '"')
-            : value
-          }'`;
+        result += ` ${key}=${value}`;
     }
   }
-}
 
-export function parseChildren(children) {
-  return children === undefined || children === null ? '' : Array.isArray(children) ? children.join('') : children;
+  return result;
 }
 
 export const voidTagMap = {

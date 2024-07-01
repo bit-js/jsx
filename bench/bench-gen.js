@@ -2,35 +2,32 @@ import fs from 'fs';
 
 const rootPath = `${import.meta.dir}/src`;
 const dirs = fs.readdirSync(rootPath);
-const env = { NODE_ENV: 'production' };
 
-function setupBench(category, targetFile) {
+Bun.$.env({ NODE_ENV: 'production' });
+Bun.$.cwd(rootPath);
+
+async function setupBench(category, targetFile) {
   category = category.replace(/ /g, '_');
 
-  const results = dirs.map((dir, idx) => `import ${category}${idx} from '${rootPath}/${dir}/${targetFile}';`);
+  const results = dirs.map((dir, idx) => `import ${category}${idx} from '${rootPath}/${dir}/dist/${targetFile}';`);
 
-  results.push(`group('${category}', () => {\n  const t = ('H' + Math.random()).repeat(100);`);
+  results.push(`group('${category}', () => {\n  const t = [${new Array(100).fill(0).map(() => "('H' + Math.random()).repeat(100)")}];`);
 
   for (let i = 0, { length } = dirs; i < length; ++i) {
     const dir = dirs[i];
+    await Bun.$`cd ${dir} && bun i && bun run build`;
 
-    const buildFile = `${rootPath}/${dir}/build.ts`;
-    if (fs.existsSync(buildFile)) {
-      console.log(buildFile);
-      Bun.spawnSync(['bun', buildFile], { cwd: `${rootPath}/${dir}`, env });
-    }
-
-    results.push(`  bench('${dir}', () => ${category}${i}(t));`);
+    results.push(`  bench('${dir}', () => t.map(${category}${i}));`);
   }
 
   results.push('});');
 
-  return results.join('\n') + '\n';
+  return '\n' + results.join('\n') + '\n';
 }
 
 Bun.write(`${import.meta.dir}/index.js`,
   'import { group, run, bench } from "mitata";\n'
   + `for (let i = 0; i < 10; ++i) bench('noop', () => {});`
-  + setupBench('Real world', 'real-world.js')
+  + await setupBench('Real world', 'real-world.js')
   + 'run();'
 );
