@@ -29,5 +29,6 @@ Bun.write(`${import.meta.dir}/index.js`,
   'import { group, run, bench } from "mitata";\n'
   + `for (let i = 0; i < 10; ++i) bench('noop', () => {});`
   + await setupBench('Real world', 'real-world.js')
+  + await setupBench('Simple', 'simple.js')
   + 'run();'
 );
