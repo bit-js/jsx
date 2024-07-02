@@ -5,9 +5,6 @@ import pkg from './package.json';
 Bun.build({
     format: 'esm',
     outdir: '.',
-    entrypoints: ['./src/index.js', './src/jsx-runtime.js', './src/jsx-dev-runtime.js'],
-    minify: {
-        whitespace: true
-    },
+    entrypoints: ['./src/jsx-runtime.js'],
     external: Object.keys(pkg.dependencies ?? {})
 });

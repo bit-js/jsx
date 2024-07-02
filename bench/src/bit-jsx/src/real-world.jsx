@@ -1,6 +1,6 @@
 import { escapeHTML } from '@bit-js/web-utils';
 
-const purchases = Array.from({ length: 50 }, (_, i) => ({
+const purchases = Array.from({ length: 20 }, (_, i) => ({
   name: `Item ${i + 1}`,
   price: i * 2,
   quantity: i * 5
@@ -162,4 +162,4 @@ export default function Page(name) {
   );
 }
 
-console.log(Page('Hi'));
+console.log(Page('Hi').length);

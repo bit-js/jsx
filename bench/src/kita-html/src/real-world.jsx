@@ -1,4 +1,4 @@
-const purchases = Array.from({ length: 50 }, (_, i) => ({
+const purchases = Array.from({ length: 20 }, (_, i) => ({
   name: `Item ${i + 1}`,
   price: i * 2,
   quantity: i * 5
@@ -8,8 +8,8 @@ function Purchase(props) {
   return (
     <div class="purchase purchase-card">
       <div class="purchase-name" safe>{props.name}</div>
-      <div class="purchase-price" safe>{props.price}</div>
-      <div class="purchase-quantity" safe>{props.quantity}</div>
+      <div class="purchase-price">{props.price}</div>
+      <div class="purchase-quantity">{props.quantity}</div>
     </div>
   );
 }
@@ -160,4 +160,4 @@ export default function Page(name) {
   );
 }
 
-console.log(Page('Hi'));
+console.log(Page('Hi').length);
