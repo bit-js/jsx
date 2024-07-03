@@ -55,44 +55,7 @@ declare namespace JSX {
     style?: undefined | string | CSSProperties;
 
     /**
-     * When set to true, all inner content (html or not) of this tag will be escaped when
-     * evaluated.
-     *
-     * **Warning: This will escape even inner jsx tags. You should only use this in the
-     * most inner tag of the html tree.**
-     *
-     * @example
-     *
-     * ```tsx
-     * <div>{'<script />'}</div>
-     * '<div><script /></div>'
-     * <div safe>{'<script />'}</div>
-     * '<div><script /></div>'
-     * <div><div>{'<script />'}</div></div>
-     * '<div><div><script /></div></div>'
-     *
-     * // Escapes even inner jsx tags
-     * <div safe><div>{'<script />'}</div></div>
-     * '<div><div><script /></div></div>'
-     * ```
-     *
-     * @default false
-     *
-     * @see https://github.com/kitajs/html/tree/master/packages/html#sanitization
-     */
-    safe?: undefined | boolean;
-
-    /**
-     * Included here to work as a react drop-in replacement
-     *
-     * @deprecated Please use `class`.
-     */
-    className?: undefined | string;
-
-    /**
-     * The html class property. You can use an array to represent conditional class names.
-     * Similar to the `clsx` package behavior.
-     *
+     * The html class property. 
      * @example
      *
      * ```tsx
@@ -103,29 +66,7 @@ declare namespace JSX {
      * '<div class="class-a class-b class-c"></div>'
      * ```
      */
-    class?: undefined | string | (string | number | null | boolean | undefined)[];
-
-    /**
-     * A custom property that can be used to avoid attributes escaping and allow custom
-     * attributes syntax, such as `:` and `.` in their names.
-     *
-     * Objects are escaped normally, **strings ARE NOT escaped**.
-     *
-     * You can use a string or an object. When using a string, it will be used as the
-     * attribute value. When using an object, it will be used as a key-value map of
-     * attributes.
-     *
-     * @example
-     *
-     * ```tsx
-     * <div attrs={{ 'data-attr': 'value"' }} />
-     * '<div data-attr="value&#34;"></div>' // escapes
-     *
-     * <div attrs='a=1 b c=3 "' />
-     * '<div a=1 b c=3 "></div>' // does NOT escape
-     * ```
-     */
-    attrs?: undefined | object | string;
+    class?: undefined | string | number | null | boolean | undefined;
   }
 
   interface HtmlAnchorTag extends HtmlTag {
@@ -667,7 +608,7 @@ declare namespace JSX {
   }
 
   interface ElementChildrenAttribute {
-    children?: undefined | import('./').Children;
+    children?: undefined | import('./jsx-runtime').Children;
   }
 
   interface IntrinsicElements {

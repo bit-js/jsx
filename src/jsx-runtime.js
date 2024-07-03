@@ -18,9 +18,11 @@ export function jsxs(name, attributes) {
   return typeof name === 'string'
     ? '<' + name + parseAttributes(attributes) + '>' + parseArrayChildren(attributes.children) + '</' + name + '>'
     : name(attributes);
-};
+}
 
 export function Fragment({ children }) {
   return Array.isArray(children) ? parseArrayChildren(children) : (children ?? '');
 }
+
+export { parseAttributes };
 
