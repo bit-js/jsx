@@ -14,30 +14,35 @@ export function parseAttributes(attributes) {
   let result = '';
 
   for (const key in attributes) {
+    if (key === 'children') continue;
+
     const value = attributes[key];
 
     if (key === 'class') {
-      result += " class='" + (typeof value === 'string' && value.indexOf("'") !== -1
+      result += ` class='${typeof value === 'string' && value.indexOf("'") !== -1
         ? value.replace(/'/g, '"')
-        : value) + "'";
-    } else if (key !== 'children') {
-      if (typeof value === 'string')
+        : value}'`;
+    } else switch (typeof value) {
+      case 'string':
         result += ` ${key}='${value.indexOf("'") === -1 ? value : value.replace(/'/g, '"')}'`;
-      else if (typeof value === 'boolean') {
-        if (value) {
-          result += ' ';
-          result += key;
-        }
-      } else if (typeof value === 'object') {
+        continue;
+
+      case 'boolean':
+        if (value) result += ' ' + key;
+        continue;
+
+      case 'object':
         if (value instanceof Date)
           result += ` ${key}='${value.toISOString()}'`;
         else {
           const str = value + '';
           result += ` ${key}='${str.indexOf("'") === -1 ? str : str.replace(/'/g, '"')}'`
         }
-      }
-      else
-        result += ` ${key}=${value}`;
+        continue;
+
+      default:
+        result += ` ${key}='${value}'`;
+        continue;
     }
   }
 

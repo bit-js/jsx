@@ -30,6 +30,5 @@ Bun.write(`${import.meta.dir}/index.js`,
   + `for (let i = 0; i < 10; ++i) bench('noop', () => {});`
   + await setupBench('Real world', 'real-world.js')
   + await setupBench('Simple', 'simple.js')
-  + await setupBench('Attribute parsing', 'attributes.js')
   + 'run();'
 );

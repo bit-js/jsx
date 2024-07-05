@@ -1,4 +1,4 @@
-const purchases = Array.from({ length: 20 }, (_, i) => ({
+const purchases = Array.from({ length: 1000 }, (_, i) => ({
   name: `Item ${i + 1}`,
   price: i * 2,
   quantity: i * 5
@@ -23,7 +23,7 @@ function Layout(props) {
   );
 }
 
-function Head(props) {
+export function Head(props) {
   return (
     <div>
       <title safe>{props.title}</title>
@@ -113,7 +113,7 @@ function Sidebar() {
       <ul class="purchase list">
         {purchases.slice(0, 3).map((purchase) => (
           <li class="purchase-preview" safe>
-            {purchase.name} - ${purchase.price.toFixed(2)}
+            {purchase.name} - {purchase.price.toFixed(2)}
           </li>
         ))}
       </ul>
@@ -147,9 +147,7 @@ export default function Page(name) {
         <h2>Purchases</h2>
 
         <div class="purchases">
-          {purchases.map((purchase) => (
-            <Purchase {...purchase} />
-          ))}
+          {purchases.map(Purchase)}
         </div>
 
         <UserProfile name={name} />

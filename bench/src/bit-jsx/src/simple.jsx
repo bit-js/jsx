@@ -1,3 +1,5 @@
+import { Head } from "./real-world";
+
 export default function Simple(str) {
-  return <div>{str}</div>;
+  return <Head title={str} />;
 }

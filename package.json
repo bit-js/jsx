@@ -8,7 +8,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "bench": "bun build.ts && bun bench/generate.js && bun bench/index.js && bun tsx bench/index.js",
+    "bench": "bun build.ts && bun bench/generate.js && BUN_JSC_jitPolicyScale=0.0 BUN_JSC_thresholdForOptimizeSoon=0.0 BUN_JSC_thresholdForJITSoon=0.0 bun bench/index.js && bun tsx bench/index.js",
     "build:test": "bun build.ts && bun test",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix"
