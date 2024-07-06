@@ -1,4 +1,5 @@
-import { parseArrayChildren, parseAttributes, voidTagMap } from './utils';
+import { parseArrayChildren, voidTagMap } from './utils';
+import parseAttributes from './attributes';
 
 export function jsx(name, attributes) {
   if (typeof name === 'string') {
